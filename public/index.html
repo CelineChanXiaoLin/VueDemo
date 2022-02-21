@@ -1,15 +1,39 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>First ever Vue</title>
+    <!-- Moralis SDK code -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
   </head>
   <body>
+    <h1>Gas Stats With Moralis</h1>
 
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <button id="btn-login">Moralis Login</button>
+    <button id="btn-logout">Logout</button>
+
+    <script>
+      // connect to Moralis server
+
+      const serverUrl = "https://hpzry1kums8f.usemoralis.com:2053/server";
+      const appId = "N57ODjzkI15fX5kSZjmM0YHXbtLGSLOCrekbhgiD";
+      Moralis.start({ serverUrl, appId });
+      
+      async function login() {
+          let user = Moralis.User.current();
+          if (!user) {
+            user = await Moralis.authenticate();
+          }
+          console.log("logged in user:", user);
+        }
+  
+        async function logOut() {
+          await Moralis.User.logOut();
+          console.log("logged out");
+        }
+  
+        document.getElementById("btn-login").onclick = login;
+        document.getElementById("btn-logout").onclick = logOut;
+
+    </script>
   </body>
 </html>
